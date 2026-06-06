@@ -1,0 +1,211 @@
+/* Twitch-Plugin: nur Layout/Overlay – UI-Basis ist Bootstrap 5 */
+
+.twitch-plugin .twitch-hero {
+  background: linear-gradient(90deg, #9b52ff 0%, #5f16ca 100%);
+}
+
+.twitch-plugin .twitch-channel-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  --twitch-cover-height: 218px;
+}
+
+.twitch-plugin .twitch-external-link {
+  position: relative;
+  z-index: 3;
+  text-decoration: none;
+}
+
+.twitch-plugin .twitch-external-link:hover {
+  text-decoration: underline;
+}
+
+.twitch-plugin .twitch-channel-card:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+.twitch-plugin .twitch-channel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bs-box-shadow) !important;
+}
+
+.twitch-plugin .twitch-cover {
+  height: var(--twitch-cover-height);
+  background: #111;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.twitch-plugin .twitch-cover.is-offline.has-cover-image {
+  --twitch-cover-height: 240px;
+  height: 240px;
+  background: #0f0f13;
+}
+
+.twitch-plugin .twitch-cover-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.twitch-plugin .twitch-cover.is-live .twitch-cover-img {
+  object-position: center top;
+}
+
+.twitch-plugin .twitch-cover.is-offline .twitch-cover-img {
+  object-fit: contain;
+  object-position: center center;
+}
+
+.twitch-plugin .twitch-cover-art {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 3.1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.twitch-plugin .twitch-channel-card.variant-violet .twitch-cover:not(.has-cover-image) {
+  background: linear-gradient(135deg, #18122f 0%, #6d2df4 60%, #a261ff 100%);
+}
+
+.twitch-plugin .twitch-channel-card.variant-blue .twitch-cover:not(.has-cover-image) {
+  background: linear-gradient(135deg, #07111f 0%, #13437d 60%, #35a1ff 100%);
+}
+
+.twitch-plugin .twitch-channel-card.variant-red .twitch-cover:not(.has-cover-image) {
+  background: linear-gradient(135deg, #1d0909 0%, #7b1616 55%, #ff4848 100%);
+}
+
+.twitch-plugin .twitch-channel-card.variant-orange .twitch-cover:not(.has-cover-image) {
+  background: linear-gradient(135deg, #241504 0%, #8d4c0f 55%, #ff962d 100%);
+}
+
+.twitch-plugin .twitch-channel-card.variant-dark .twitch-cover:not(.has-cover-image) {
+  background: linear-gradient(135deg, #050505 0%, #222 45%, #555 100%);
+}
+
+.twitch-plugin .twitch-channel-card.variant-indigo .twitch-cover:not(.has-cover-image) {
+  background: linear-gradient(135deg, #0e1026 0%, #28367d 55%, #8191ff 100%);
+}
+
+.twitch-plugin .twitch-cover-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.35) 100%);
+  transition: opacity 0.2s ease;
+}
+
+.twitch-plugin .twitch-channel-card:hover .twitch-cover-overlay {
+  opacity: 0.75;
+}
+
+.twitch-plugin .twitch-live-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #fff;
+  animation: twitch-live-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes twitch-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.82);
+  }
+}
+
+.twitch-plugin .twitch-cover-action {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.twitch-plugin .twitch-cover-action span {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
+
+.twitch-plugin .twitch-cover-action i {
+  font-size: 2.4rem;
+}
+
+.twitch-plugin .twitch-channel-card:hover .twitch-cover-action {
+  opacity: 1;
+}
+
+.twitch-plugin .twitch-card-body {
+  z-index: 2;
+  padding-top: 2.5rem;
+}
+
+.twitch-plugin .twitch-avatar {
+  position: absolute;
+  left: 1rem;
+  top: -2.25rem;
+  z-index: 10;
+  width: 64px;
+  height: 64px;
+  border: 4px solid var(--bs-body-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #131313;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: var(--bs-box-shadow);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.twitch-plugin .twitch-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.twitch-plugin .twitch-modal-player {
+  width: 100%;
+  min-height: min(72vh, 720px);
+  background: #000;
+}
+
+@media (max-width: 767.98px) {
+  .twitch-plugin .twitch-modal-player {
+    min-height: 52vh;
+  }
+}
