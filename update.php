@@ -9,8 +9,6 @@ global $modulname, $version, $plugin;
 $modulname = 'twitch';
 $version = isset($plugin['version']) ? (string)$plugin['version'] : ($version ?? '0.0.0');
 
-require __DIR__ . '/install.php';
-
 $twitchClientIdColumn = safe_query("SHOW COLUMNS FROM plugins_twitch_settings LIKE 'client_id'");
 if (!$twitchClientIdColumn || mysqli_num_rows($twitchClientIdColumn) === 0) {
     safe_query("ALTER TABLE plugins_twitch_settings
@@ -24,3 +22,5 @@ if (!$twitchClientSecretColumn || mysqli_num_rows($twitchClientSecretColumn) ===
   ADD COLUMN client_secret varchar(255) NOT NULL DEFAULT '' AFTER client_id
 ");
 }
+
+require __DIR__ . '/install.php';
