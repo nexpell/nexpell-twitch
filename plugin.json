@@ -1,8 +1,0 @@
-{
-    "name": "Twitch",
-    "slug": "twitch",
-    "version": "1.0.0",
-    "author": "Nexpell",
-    "description": "Twitch stream integration",
-    "api_version": 1
-}

@@ -1,5 +1,65 @@
 <?php
 
+if (!function_exists('safe_query')) {
+    die('Access denied');
+}
+
+global $plugin;
+
+PluginInstallerHelper::install([
+
+    'modulname'  => 'twitch',
+    'name'       => 'Twitch',
+    'version'    => (string)($plugin['version'] ?? '0.0.0'),
+    'author'     => 'T-Seven',
+    'website'    => 'https://www.nexpell.de',
+    'path'       => 'includes/plugins/twitch/',
+
+    'admin_file' => 'admin_twitch',
+    'index_link' => 'twitch',
+    'sidebar'    => 'deactivated',
+
+    'languages' => [
+        'plugin_info_twitch' => [
+            'de' => 'Mit diesem Plugin könnt ihr Twitch-Kanäle mit Live-Status, Zuschauerzahlen und Kanalvorschau anzeigen.',
+            'en' => 'This plugin displays Twitch channels including live status, viewer counts, and channel previews.',
+            'it' => 'Questo plugin visualizza canali Twitch con stato live, numero di spettatori e anteprime del canale.'
+        ]
+    ],
+
+    'permissions' => [
+        'twitch'
+    ],
+
+    'admin_navigation' => [
+        [
+            'url'   => 'admincenter.php?site=admin_twitch',
+            'catID' => 11,
+            'sort'  => 1,
+            'labels' => [
+                'de' => 'Twitch',
+                'en' => 'Twitch',
+                'it' => 'Twitch'
+            ]
+        ]
+    ],
+
+    'website_navigation' => [
+        [
+            'url'        => 'index.php?site=twitch',
+            'mnavID'     => 4,
+            'sort'       => 1,
+            'indropdown' => 1,
+            'labels' => [
+                'de' => 'Twitch',
+                'en' => 'Twitch',
+                'it' => 'Twitch'
+            ]
+        ]
+    ]
+
+]);
+
 safe_query("CREATE TABLE IF NOT EXISTS plugins_twitch_settings (
   id int(11) NOT NULL AUTO_INCREMENT,
   main_channel varchar(100) NOT NULL,
@@ -21,69 +81,3 @@ safe_query("CREATE TABLE IF NOT EXISTS plugins_twitch_banner_cache (
   PRIMARY KEY (channel)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 ");
-
-## SYSTEM #####################################################################################################################################
-
-safe_query("
-    INSERT IGNORE INTO settings_plugins
-        (pluginID, modulname, admin_file, activate, author, website, index_link, hiddenfiles, version, path, status_display, plugin_display, widget_display, delete_display, sidebar)
-    VALUES
-        ('', 'twitch', 'admin_twitch', 1, 'T-Seven', 'https://www.nexpell.de', 'twitch', '', '0.1', 'includes/plugins/twitch/', 1, 1, 1, 1, 'deactivated');
-");
-
-safe_query("
-    INSERT IGNORE INTO settings_plugins_lang 
-        (content_key, language, content, updated_at)
-    VALUES
-        ('plugin_name_twitch', 'de', 'Twitch', NOW()),
-        ('plugin_name_twitch', 'en', 'Twitch', NOW()),
-        ('plugin_name_twitch', 'it', 'Twitch', NOW()),
-
-        ('plugin_info_twitch', 'de', 'Mit diesem Plugin koennt ihr Twitch-Kanaele mit Live-Status, Zuschauerzahlen und Kanalvorschau anzeigen.', NOW()),
-        ('plugin_info_twitch', 'en', 'This plugin displays Twitch channels including live status, viewer counts, and channel previews.', NOW()),
-        ('plugin_info_twitch', 'it', 'Questo plugin visualizza canali Twitch con stato live, numero di spettatori e anteprime del canale.', NOW())
-");
-
-## NAVIGATION #####################################################################################################################################
-
-safe_query("
-    INSERT IGNORE INTO navigation_dashboard_links
-        (catID, modulname, url, sort)
-    VALUES
-        (11, 'twitch', 'admincenter.php?site=admin_twitch', 1)
-");
-$linkID = mysqli_insert_id($_database);
-
-safe_query("
-    INSERT IGNORE INTO navigation_dashboard_lang
-        (content_key, language, content, updated_at)
-    VALUES
-        ('nav_link_{$linkID}', 'de', 'Twitch', NOW()),
-        ('nav_link_{$linkID}', 'en', 'Twitch', NOW()),
-        ('nav_link_{$linkID}', 'it', 'Twitch', NOW())
-");
-
-safe_query("
-    INSERT IGNORE INTO navigation_website_sub
-        (mnavID, modulname, url, sort, indropdown, last_modified)
-    VALUES
-        (4, 'twitch', 'index.php?site=twitch', 1, 1, NOW())
-");
-
-$snavID = mysqli_insert_id($_database);
-
-safe_query("
-    INSERT IGNORE INTO navigation_website_lang
-        (content_key, language, content, updated_at)
-    VALUES
-        ('nav_sub_{$snavID}', 'de', 'Twitch', NOW()),
-        ('nav_sub_{$snavID}', 'en', 'Twitch', NOW()),
-        ('nav_sub_{$snavID}', 'it', 'Twitch', NOW())
-");
-
-#######################################################################################################################################
-safe_query("
-  INSERT IGNORE INTO user_role_admin_navi_rights (id, roleID, type, modulname)
-  VALUES ('', 1, 'link', 'twitch')
-");
- ?>
